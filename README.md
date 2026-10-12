@@ -8,20 +8,26 @@ loads quickly even on slow mobile data and can be hosted anywhere for free.
 
 | File | What it is |
 | --- | --- |
-| `index.html` | Home — welcome, **next gathering** card, weekly events, what we're about, first-visit guide |
-| `about.html` | Our name, mission & vision, what we believe, values |
-| `events.html` | Weekly gatherings in detail, with **Add to calendar** buttons |
+| `index.html` | Home — welcome, **next gathering** card, weekly events, pastors, what we're about, first-visit guide |
+| `about.html` | Our name, **our pastors**, mission & vision, what we believe, values |
+| `events.html` | Sunday service and midweek gatherings in detail, with **Add to calendar** buttons |
+| `give.html` | **M-PESA till number** with a copy button and step-by-step instructions |
 | `contact.html` | Contact details, map, and a message / prayer-request form |
 | `404.html` | Friendly "page not found" page |
 
-## Weekly events
+## Weekly schedule
 
-- **Tuesday Prayers** — every Tuesday, 8:00 – 9:00 pm
-- **Thursday Bible Study** — every Thursday, 8:00 – 9:00 pm
+All times are East Africa Time (EAT).
 
-All times are East Africa Time (EAT). The home page's "Up next / Happening now" card is calculated in
-Kenyan time, whatever time zone the visitor is in. Each event has *Google Calendar* and
-*Apple / Outlook (.ics)* buttons that create a **weekly recurring** event.
+| Gathering | When |
+| --- | --- |
+| **Sunday Service** | Every Sunday, 9:30 am – 12:30 pm: **prayers** from 9:30, **worship** 10:00 – 11:00, **sermon** 11:00 – 12:30 |
+| **Tuesday Prayers** | Every Tuesday, 8:00 – 9:00 pm |
+| **Thursday Bible Study** | Every Thursday, 8:00 – 9:00 pm |
+
+The home page's "Up next / Happening now" card is calculated in Kenyan time, whatever time zone the
+visitor is in. Each event has *Google Calendar* and *Apple / Outlook (.ics)* buttons that create a
+**weekly recurring** event.
 
 ### Changing or adding an event
 
@@ -35,14 +41,33 @@ Each event is an `<article class="event-card" data-event ...>` block (in `index.
 ```
 
 - `data-day`: `0` = Sunday, `1` = Monday … `6` = Saturday
-- `data-start` / `data-end`: 24-hour time in Kenyan time (`20:00` = 8:00 pm)
+- `data-start` / `data-end`: 24-hour time in Kenyan time (`20:00` = 8:00 pm). Sunday Service uses `09:30` – `12:30`.
 
-To add one (for example a Sunday service), copy an existing card, change those values and the visible
-text. The "next gathering" card and calendar buttons pick it up automatically. Don't forget the
-"Weekly gatherings" list in the footer (every page) and on `contact.html`.
+To add one, copy an existing card, change those values and the visible text. The "next gathering" card
+and calendar buttons pick it up automatically. Don't forget the "Weekly gatherings" list in the footer
+(on every page) and on `contact.html`.
 
-> **Assumption to check:** Thursday Bible Study was given as "8:00 to 9:00" — I've shown it as **8:00 – 9:00 pm**,
-> the same as Tuesday. Change it if that's not right.
+> **Assumptions to check**
+> - Thursday Bible Study was given as "8:00 to 9:00" — shown as **8:00 – 9:00 pm**, like Tuesday.
+> - No end time was given for Sunday prayers, so the service is shown as one block, **9:30 am – 12:30 pm**,
+>   with prayers *starting* at 9:30 (and worship following at 10:00).
+
+## Giving (M-PESA)
+
+The Buy Goods **till number 157 8373** is on `give.html`. If it ever changes, search that file for `157`
+and update every occurrence (the big number, the how-to step and the page description). The copy
+button reads the number from the page, so it updates automatically.
+
+The page tells givers to check the business name on the M-PESA confirmation screen before they confirm —
+worth making sure your till is registered under a name your church family will recognise.
+
+## Pastors
+
+**Pastor Millicent Kaunda** and **Pastor Sospeter Kaunda** are listed on `about.html` (and mentioned on
+the home page). They currently show monogram circles. To add photos, replace each
+`<div class="avatar" aria-hidden="true">MK</div>` with
+`<img class="avatar" src="img/pastor-millicent.jpg" alt="Pastor Millicent Kaunda">` (square photos, at least 220 px, work best).
+Bios, titles (e.g. "Senior Pastor") and a short welcome message can be added to those cards too.
 
 ## Add your contact details (do this first)
 
@@ -75,9 +100,8 @@ review and edit them so they reflect your church's own beliefs. Scripture quotat
 
 ## Not included yet (needs your input)
 
-- **Giving** (e.g. M-Pesa Paybill / Till details) — send the details and a Give page can be added.
-- **Leadership / pastors** and **photos** — add when you have names and pictures.
-- **Sunday service** — the schedule only lists the two midweek events provided.
+- **Photos** of the church, services and pastors.
+- **Where you meet** — add the address in `js/site-config.js` (it also appears on calendar invites).
 - **Link-preview image** — for WhatsApp/Facebook previews, add once the domain is known:
   `<meta property="og:image" content="https://YOUR-DOMAIN/img/preview.png">` (1200 × 630 px).
 

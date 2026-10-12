@@ -69,7 +69,7 @@
       }
     });
     window.addEventListener("resize", function () {
-      if (window.innerWidth >= 860) setNav(false);
+      if (window.innerWidth >= 960) setNav(false);
     });
   }
 
@@ -290,6 +290,42 @@
       }
     });
   }
+
+  /* ---------- Copy-to-clipboard buttons (e.g. M-PESA till number) ---------- */
+  function copyText(value) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(value);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = value;
+      ta.setAttribute("readonly", "");
+      ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy") ? resolve() : reject(); } catch (e) { reject(e); }
+      document.body.removeChild(ta);
+    });
+  }
+  $$("[data-copy]").forEach(function (btn) {
+    var source = $(btn.getAttribute("data-copy"));
+    if (!source) return;
+    var label = $("[data-copy-label]", btn);
+    var status = $("[data-copy-status]");
+    var original = label ? label.textContent : "";
+    btn.hidden = false;
+    btn.addEventListener("click", function () {
+      // Copy digits only, so it pastes cleanly into M-PESA.
+      var value = source.textContent.replace(/\D/g, "");
+      copyText(value).then(function () {
+        if (label) label.textContent = "Copied!";
+        if (status) status.textContent = "Till number " + value + " copied.";
+        setTimeout(function () { if (label) label.textContent = original; }, 2200);
+      }, function () {
+        if (status) status.textContent = "Couldn’t copy automatically — please select the number and copy it.";
+      });
+    });
+  });
 
   /* ---------- Footer year ---------- */
   $$("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
