@@ -129,8 +129,23 @@ tick means it's live. There is nothing to build or upload by hand.
   public), so never commit passwords or private information.
 - The setting lives at **Settings → Pages → Build and deployment**. If you ever rename the default branch
   (for example to `main`), check that **Source** still points at the new branch name.
-- **Custom domain** (e.g. `lifesourcechurch.co.ke`): add it under **Settings → Pages → Custom domain**, create
-  the DNS records GitHub shows you, and tick **Enforce HTTPS**. Nothing in the site needs changing — all links are relative.
+- **Custom domain: `lifesourcechurch254.co.ke`.** The `CNAME` file in the repository root tells GitHub which
+  domain to serve (please don't delete it). To finish the setup, add these records in the DNS settings at
+  your domain registrar (the company you bought the domain from):
+
+  | Type | Name / Host | Value |
+  | --- | --- | --- |
+  | A | `@` (the bare domain) | `185.199.108.153` |
+  | A | `@` | `185.199.109.153` |
+  | A | `@` | `185.199.110.153` |
+  | A | `@` | `185.199.111.153` |
+  | CNAME | `www` | `pizzatechies.github.io` |
+
+  Remove any old "parking page" or "URL forwarding" records for the same names. DNS changes can take from a few
+  minutes up to 48 hours. When **Settings → Pages** shows *DNS check successful*, tick **Enforce HTTPS** (GitHub
+  issues the certificate for free; this can take up to an hour). The old `pizzatechies.github.io/lifesource`
+  address then redirects to the custom domain automatically. If GitHub's records ever change, its guide
+  *"Managing a custom domain for your GitHub Pages site"* always has the current ones.
 
 `404.html` is fully self-contained (inline logo and styles), so it displays correctly at any depth. On a
 `*.github.io/<repo>/` address its "Back to the home page" button automatically points at `/<repo>/`; on a
