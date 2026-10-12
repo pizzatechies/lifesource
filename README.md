@@ -113,12 +113,34 @@ python3 -m http.server 8000     # then open http://localhost:8000
 
 (Or just double-click `index.html`.)
 
-## Publish for free
+## Publishing (GitHub Pages)
 
-Upload the whole folder to any static host:
+The site is published with GitHub Pages by `.github/workflows/pages.yml`. Once it's switched on, the
+live address is **https://pizzatechies.github.io/lifesource/**.
 
-- **GitHub Pages** — Settings → Pages → deploy from the branch root.
-- **Netlify** or **Cloudflare Pages** — connect the repo (no build command, publish directory `/`), or drag-and-drop the folder.
+**One-time setup** (needs repo admin; takes under a minute):
 
-`404.html` carries its own styles but uses root-relative links (`/img/…`, `/`), so it is complete on a
-custom domain; on a `username.github.io/repo` address its logo and "home" link would point at the wrong place.
+1. In the repository go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+3. Open the **Actions** tab, pick **Deploy to GitHub Pages**, and press **Run workflow** (or just push any change).
+
+After that, **every push to the repository's default branch redeploys the site automatically** (about a
+minute). Progress and the live link are shown in the Actions tab. Pushes to other branches only run a
+build check; they are never published.
+
+- The workflow publishes only the website files — not the README, `.git` or `.github`.
+- The default branch is currently `claude/serene-meitner-u5strx`. You may prefer to rename it to `main`
+  (**Settings → General → Default branch**); the workflow follows whichever branch is the default.
+- **Custom domain** (e.g. `lifesourcechurch.co.ke`): add it under **Settings → Pages → Custom domain**, create
+  the DNS records GitHub shows you, and tick **Enforce HTTPS**. Nothing in the site needs changing — all links are relative.
+- **No-Actions alternative:** choose **Source → Deploy from a branch**, pick the default branch and `/ (root)`.
+  (`.nojekyll` is included so GitHub serves the files exactly as they are.)
+
+`404.html` is fully self-contained (inline logo and styles), so it displays correctly at any depth. On a
+`*.github.io/<repo>/` address its "Back to the home page" button automatically points at `/<repo>/`; on a
+custom domain it points at `/`.
+
+### Other hosts
+
+The folder is plain static files, so it also works on **Netlify** or **Cloudflare Pages** (no build
+command, publish directory `/`) or by drag-and-drop.

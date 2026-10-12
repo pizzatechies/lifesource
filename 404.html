@@ -6,14 +6,14 @@
   <title>Page not found — Life Source Church Kenya</title>
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#1700ab">
-  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%0A  %3Crect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%23fff%22/%3E%0A  %3Cg transform=%22translate%28-27.19 -18.91%29 scale%280.0625%29%22%3E%0A    %3Cpath d=%22M893 604H968C925 650 899 695 903 760C910 850 990 930 987 1025C985 1100 940 1160 893 1213V839H739V735H893Z%22 fill=%22%231700ab%22/%3E%0A    %3Cpath d=%22M1001 604V735H1155V839H1006C975 795 950 730 958 680C962 650 975 622 990 604Z%22 fill=%22%231700ab%22/%3E%0A    %3Cpath d=%22M932 686C930 735 945 790 985 850C1005 880 1030 900 1041 923L1015 853C1090 880 1140 940 1141 1010C1142 1080 1100 1130 1040 1172C1068 1130 1074 1090 1066 1065C1050 1140 990 1190 907 1225C965 1160 1004 1090 1004 1010C1004 940 960 900 930 830C915 790 918 735 932 686Z%22 fill=%22%23bd9c23%22/%3E%0A    %3Cpath d=%22M934 408C975 435 995 450 1020 485C1030 497 1045 504 1058 496C1075 482 1095 490 1106 509C1088 502 1078 508 1075 530C1068 565 1050 580 1010 595C975 608 960 625 952 640C962 610 985 585 1000 570C1015 552 1010 545 990 542C950 538 932 530 924 489C940 502 955 504 970 500C950 495 932 480 923 459C940 481 955 485 968 484C950 478 930 465 928 435C945 458 960 466 975 468C955 455 935 440 934 408Z%22 fill=%22%23bd9c23%22/%3E%0A  %3C/g%3E%0A%3C/svg%3E">
   <style>
     :root { color-scheme: light dark; }
     * { box-sizing: border-box; }
     body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 2rem; text-align: center;
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; line-height: 1.6;
       color: #fff; background: linear-gradient(135deg, #0a0050, #1700ab 70%, #3a1fcf); }
-    img { width: 64px; height: 124px; margin-bottom: 1rem; }
+    svg { width: 64px; height: 124px; margin-bottom: 1rem; }
     h1 { margin: 0 0 .4rem; font-family: Georgia, "Noto Serif", serif; font-size: clamp(2rem, 6vw, 3rem); }
     p { margin: 0 auto 1.6rem; max-width: 30em; color: rgba(255,255,255,.88); }
     a { display: inline-block; padding: .85rem 1.6rem; font-weight: 650; color: #181200; background: #bd9c23;
@@ -23,10 +23,26 @@
 </head>
 <body>
   <main>
-    <img src="/img/logo-mark-light.svg" alt="" width="64" height="124">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="730 398 435 835" aria-hidden="true" focusable="false">
+  <path d="M893 604H968C925 650 899 695 903 760C910 850 990 930 987 1025C985 1100 940 1160 893 1213V839H739V735H893Z" fill="#f1eeff"/>
+  <path d="M1001 604V735H1155V839H1006C975 795 950 730 958 680C962 650 975 622 990 604Z" fill="#f1eeff"/>
+  <path d="M932 686C930 735 945 790 985 850C1005 880 1030 900 1041 923L1015 853C1090 880 1140 940 1141 1010C1142 1080 1100 1130 1040 1172C1068 1130 1074 1090 1066 1065C1050 1140 990 1190 907 1225C965 1160 1004 1090 1004 1010C1004 940 960 900 930 830C915 790 918 735 932 686Z" fill="#d9b93f"/>
+  <path d="M934 408C975 435 995 450 1020 485C1030 497 1045 504 1058 496C1075 482 1095 490 1106 509C1088 502 1078 508 1075 530C1068 565 1050 580 1010 595C975 608 960 625 952 640C962 610 985 585 1000 570C1015 552 1010 545 990 542C950 538 932 530 924 489C940 502 955 504 970 500C950 495 932 480 923 459C940 481 955 485 968 484C950 478 930 465 928 435C945 458 960 466 975 468C955 455 935 440 934 408Z" fill="#d9b93f"/>
+</svg>
     <h1>Page not found</h1>
     <p>We couldn’t find the page you were looking for — but you’re always welcome here.</p>
-    <a href="/">Back to the home page</a>
+    <a id="home" href="/">Back to the home page</a>
   </main>
+  <script>
+    // This page can be served from any depth, so it uses no relative links. On a GitHub
+    // project site (user.github.io/repo/) the home page is /repo/ rather than /.
+    (function () {
+      var home = document.getElementById("home");
+      if (/\.github\.io$/.test(location.hostname)) {
+        var repo = location.pathname.split("/")[1];
+        if (repo) home.href = "/" + repo + "/";
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -1,0 +1,59 @@
+# Publishes the site to GitHub Pages.
+#
+# One-time setup (repo owner): Settings → Pages → Build and deployment →
+# Source: "GitHub Actions". After that, every push to the repository's default
+# branch redeploys the site automatically. You can also run it by hand from the
+# Actions tab ("Run workflow").
+name: Deploy to GitHub Pages
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; let an in-progress deployment finish rather than cancel it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Assemble the site (only what visitors should see)
+        run: |
+          mkdir _site
+          rsync -a \
+            --exclude='.git' --exclude='.github' --exclude='_site' \
+            --exclude='README.md' \
+            ./ _site/
+          echo "Files being published:" && find _site -type f | sort
+
+      - name: Set up Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  # Only the default branch is ever published; pushes to other branches just run
+  # the build job above as a check.
+  deploy:
+    needs: build
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
