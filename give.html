@@ -63,7 +63,7 @@
           <p class="till__number" id="till-number">157&nbsp;8373</p>
           <button class="btn btn--accent" type="button" data-copy="#till-number" hidden><span class="icon" data-icon="download" aria-hidden="true"></span><span data-copy-label>Copy till number</span></button>
           <p class="form-status" data-copy-status role="status" aria-live="polite"></p>
-          <p class="till__note">Please check the business name on the M-PESA confirmation screen before you enter your PIN. If you’re unsure, <a href="contact.html">ask us first</a>.</p>
+          <p class="till__note">Please check the business name on the M-PESA confirmation screen before you enter your PIN. <span data-site-needs-any="phone,whatsapp,email,address" hidden> If you’re unsure, <a href="contact.html">ask us first</a>.</span><span data-site-empty-notice> If you’re unsure, please ask a church leader before giving.</span></p>
         </div>
 
         <div data-reveal>
@@ -89,7 +89,7 @@
       </div>
     </section>
 
-    <section class="cta-band">
+    <section class="cta-band" data-site-needs-any="phone,whatsapp,email,address" hidden>
       <div class="container" data-reveal>
         <p class="eyebrow">You belong here</p>
         <h2>Questions about giving?</h2>
@@ -97,6 +97,19 @@
         <div class="btn-row">
           <a class="btn btn--accent" href="contact.html">Contact us</a>
           <a class="btn btn--ghost" href="events.html">Weekly gatherings</a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="cta-band" data-site-empty-notice>
+      <div class="container" data-reveal>
+        <p class="eyebrow">You belong here</p>
+        <h2>Thank you for your generosity</h2>
+        <p>Every gift helps us serve our church family and our community. We are grateful for your partnership.</p>
+        <div class="btn-row">
+          <a class="btn btn--accent" href="events.html">Weekly gatherings</a>
+          <a class="btn btn--ghost" href="about.html">About our church</a>
         </div>
       </div>
     </section>
@@ -149,7 +162,7 @@
             <li data-site-needs="phone" hidden><a data-site-href="phone" data-site-text="phone"></a></li>
             <li data-site-needs="whatsapp" hidden><a data-site-href="whatsapp" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></li>
             <li data-site-needs="email" hidden><a data-site-href="email" data-site-text="email"></a></li>
-            <li><a href="contact.html">Send us a message</a></li>
+            <li><a href="contact.html">Contact us</a></li>
           </ul>
         </div>
       </div>

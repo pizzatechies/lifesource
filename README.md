@@ -115,26 +115,22 @@ python3 -m http.server 8000     # then open http://localhost:8000
 
 ## Publishing (GitHub Pages)
 
-The site is published with GitHub Pages by `.github/workflows/pages.yml`. Once it's switched on, the
-live address is **https://pizzatechies.github.io/lifesource/**.
+The site is published with **GitHub Pages**, set to **Deploy from a branch** (the repository's default
+branch, `/ (root)` folder). Live address: **https://pizzatechies.github.io/lifesource/**
 
-**One-time setup** (needs repo admin; takes under a minute):
+**Every push to the default branch republishes the site automatically**, usually within a minute or two.
+You can watch it under the repository's **Actions** tab (a run called *pages build and deployment*); a green
+tick means it's live. There is nothing to build or upload by hand.
 
-1. In the repository go to **Settings → Pages**.
-2. Under **Build and deployment → Source**, choose **GitHub Actions**.
-3. Open the **Actions** tab, pick **Deploy to GitHub Pages**, and press **Run workflow** (or just push any change).
-
-After that, **every push to the repository's default branch redeploys the site automatically** (about a
-minute). Progress and the live link are shown in the Actions tab. Pushes to other branches only run a
-build check; they are never published.
-
-- The workflow publishes only the website files — not the README, `.git` or `.github`.
-- The default branch is currently `claude/serene-meitner-u5strx`. You may prefer to rename it to `main`
-  (**Settings → General → Default branch**); the workflow follows whichever branch is the default.
+- **Seeing your changes:** after the run finishes, hard-refresh the page (Ctrl/Cmd + Shift + R, or reopen the
+  tab). Browsers can hold on to the old CSS/JS for up to ~10 minutes, so edits to `js/site-config.js`
+  (your contact details) may take a little longer to appear for visitors.
+- **Everything in the repository's root folder is public** at the site address (and the repository itself is
+  public), so never commit passwords or private information.
+- The setting lives at **Settings → Pages → Build and deployment**. If you ever rename the default branch
+  (for example to `main`), check that **Source** still points at the new branch name.
 - **Custom domain** (e.g. `lifesourcechurch.co.ke`): add it under **Settings → Pages → Custom domain**, create
   the DNS records GitHub shows you, and tick **Enforce HTTPS**. Nothing in the site needs changing — all links are relative.
-- **No-Actions alternative:** choose **Source → Deploy from a branch**, pick the default branch and `/ (root)`.
-  (`.nojekyll` is included so GitHub serves the files exactly as they are.)
 
 `404.html` is fully self-contained (inline logo and styles), so it displays correctly at any depth. On a
 `*.github.io/<repo>/` address its "Back to the home page" button automatically points at `/<repo>/`; on a

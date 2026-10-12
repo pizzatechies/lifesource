@@ -189,6 +189,7 @@ a:hover { color: var(--brand-strong); }
   position: sticky;
   top: 0;
   z-index: 100;
+  background: var(--bg); /* fallback for browsers without color-mix() */
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   -webkit-backdrop-filter: saturate(1.4) blur(12px);
   backdrop-filter: saturate(1.4) blur(12px);
@@ -524,7 +525,7 @@ a:hover { color: var(--brand-strong); }
   border-left: 3px solid var(--accent);
 }
 @media (min-width: 520px) { .timeline li { grid-template-columns: 11rem 1fr; } }
-.timeline time { font-weight: 700; color: var(--brand); }
+.timeline .t { font-weight: 700; font-size: 1rem; color: var(--brand); }
 .timeline strong { display: block; color: var(--ink); }
 .timeline span { color: var(--ink-soft); font-size: 0.98rem; }
 
@@ -776,6 +777,7 @@ a:hover { color: var(--brand-strong); }
 .field textarea:focus {
   outline: none;
   border-color: var(--brand);
+  box-shadow: 0 0 0 4px var(--brand-tint);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 22%, transparent);
 }
 .form-status { min-height: 1.5em; margin: 0; font-weight: 600; color: var(--brand); }

@@ -286,7 +286,7 @@
       } else if (mail) {
         window.location.href = "mailto:" + mail + "?subject=" + encodeURIComponent(topic + " — " + name) +
           "&body=" + encodeURIComponent(text);
-        if (status) status.textContent = "Opening your email app — just press send. Thank you!";
+        if (status) status.textContent = "Opening your email app — if nothing opens, please email " + mail + ". Thank you!";
       }
     });
   }

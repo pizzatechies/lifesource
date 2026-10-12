@@ -65,9 +65,9 @@
         <h3>Sunday Service</h3>
         <p>Our main gathering of the week. We begin the morning in prayer, spend an hour in worship, and then open God’s Word together in the sermon.</p>
         <ol class="timeline">
-          <li><time>9:30 am</time><div><strong>Prayers</strong><span>We begin by seeking God together.</span></div></li>
-          <li><time>10:00 – 11:00 am</time><div><strong>Worship</strong><span>An hour of praise and worship.</span></div></li>
-          <li><time>11:00 am – 12:30 pm</time><div><strong>Sermon</strong><span>Teaching from God’s Word for everyday life.</span></div></li>
+          <li><span class="t">9:30 am</span><div><strong>Prayers</strong><span>We begin by seeking God together.</span></div></li>
+          <li><span class="t">10:00 – 11:00 am</span><div><strong>Worship</strong><span>An hour of praise and worship.</span></div></li>
+          <li><span class="t">11:00 am – 12:30 pm</span><div><strong>Sermon</strong><span>Teaching from God’s Word for everyday life.</span></div></li>
         </ol>
         <ul class="chips">
           <li class="chip"><span class="icon" data-icon="clock" aria-hidden="true"></span>9:30 am – 12:30 pm</li>
@@ -165,19 +165,33 @@
           <article class="card" data-reveal>
             <div class="icon-bubble"><span class="icon" data-icon="chat" aria-hidden="true"></span></div>
             <h3>Questions?</h3>
-            <p>Not sure where to find us or what to expect? <a href="contact.html">Send us a message</a> and we’ll help.</p>
+            <p data-site-needs-any="phone,whatsapp,email,address" hidden>Not sure where to find us or what to expect? <a href="contact.html">Send us a message</a> and we’ll help.</p>
+            <p data-site-empty-notice>Not sure what to expect? Just come as you are — you’ll be welcome, whether it’s your first time or your hundredth.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="cta-band">
+    <section class="cta-band" data-site-needs-any="phone,whatsapp,email,address" hidden>
       <div class="container" data-reveal>
         <p class="eyebrow">You belong here</p>
         <h2>Need prayer this week?</h2>
         <p>You don’t have to wait for Tuesday. Send us your prayer request and our church family will stand with you.</p>
         <div class="btn-row">
           <a class="btn btn--accent" href="contact.html#message">Send a prayer request</a>
+          <a class="btn btn--ghost" href="about.html">About our church</a>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="cta-band" data-site-empty-notice>
+      <div class="container" data-reveal>
+        <p class="eyebrow">You belong here</p>
+        <h2>Come and pray with us</h2>
+        <p>Every Tuesday evening our church family gathers to pray. You don’t have to wait for Sunday — you’re welcome to join us.</p>
+        <div class="btn-row">
+          <a class="btn btn--accent" href="#tuesday-prayers">Tuesday Prayers</a>
           <a class="btn btn--ghost" href="about.html">About our church</a>
         </div>
       </div>
@@ -231,7 +245,7 @@
             <li data-site-needs="phone" hidden><a data-site-href="phone" data-site-text="phone"></a></li>
             <li data-site-needs="whatsapp" hidden><a data-site-href="whatsapp" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></li>
             <li data-site-needs="email" hidden><a data-site-href="email" data-site-text="email"></a></li>
-            <li><a href="contact.html">Send us a message</a></li>
+            <li><a href="contact.html">Contact us</a></li>
           </ul>
         </div>
       </div>
