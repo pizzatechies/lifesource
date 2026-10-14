@@ -139,9 +139,10 @@ tick means it's live. There is nothing to build or upload by hand.
   public), so never commit passwords or private information.
 - The setting lives at **Settings → Pages → Build and deployment**. If you ever rename the default branch
   (for example to `main`), check that **Source** still points at the new branch name.
-- **Custom domain: `lifesourcechurch254.co.ke`.** The `CNAME` file in the repository root tells GitHub which
-  domain to serve (please don't delete it). To finish the setup, add these records in the DNS settings at
-  your domain registrar (the company you bought the domain from):
+- **Custom domain: not connected for now.** The site runs at **https://pizzatechies.github.io/lifesource/**. When
+  you're ready to use your own domain (`lifesourcechurch254.co.ke`), first make the DNS records below work at
+  your domain registrar (the company you bought the domain from), and only then connect it in GitHub — doing
+  it in this order avoids the site disappearing while DNS catches up:
 
   | Type | Name / Host | Value |
   | --- | --- | --- |
@@ -151,10 +152,12 @@ tick means it's live. There is nothing to build or upload by hand.
   | A | `@` | `185.199.111.153` |
   | CNAME | `www` | `pizzatechies.github.io` |
 
-  Remove any old "parking page" or "URL forwarding" records for the same names. DNS changes can take from a few
-  minutes up to 48 hours. When **Settings → Pages** shows *DNS check successful*, tick **Enforce HTTPS** (GitHub
-  issues the certificate for free; this can take up to an hour). The old `pizzatechies.github.io/lifesource`
-  address then redirects to the custom domain automatically. If GitHub's records ever change, its guide
+  Remove any old "parking page" or "URL forwarding" records for the same names, and make sure the domain's
+  nameservers are the ones where you added the records. DNS changes can take from a few minutes up to 48
+  hours. Then go to **Settings → Pages → Custom domain**, enter the domain and press **Save** (GitHub adds a
+  `CNAME` file to the repository by itself). When it shows *DNS check successful*, tick **Enforce HTTPS**.
+  The `github.io` address then redirects to your domain automatically. **To disconnect the domain again:**
+  Settings → Pages → Custom domain → **Remove**. If GitHub's records ever change, its guide
   *"Managing a custom domain for your GitHub Pages site"* always has the current ones.
 
 `404.html` is fully self-contained (inline logo and styles), so it displays correctly at any depth. On a
