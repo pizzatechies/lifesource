@@ -60,16 +60,16 @@
           <h2>Find us</h2>
 
           <div class="notice" data-site-empty-notice>
-            <p>Our contact details are being updated. In the meantime, you’re warmly invited to join us on Sunday morning (from 9:30 am), or on Tuesday (Prayers) or Thursday (Bible Study) evening, 8:00 – 9:00 pm.</p>
+            <p>We’re still adding our phone and email details. In the meantime, you’re warmly invited to join us on Sunday morning (from 9:30 am), or on Tuesday (Prayers) or Thursday (Bible Study) evening, 8:00 – 9:00 pm.</p>
           </div>
 
           <ul class="contact-list">
-            <li class="contact-item" data-site-needs="address" hidden>
+            <li class="contact-item" data-site-needs-any="address,mapLinkUrl" hidden>
               <div class="icon-bubble"><span class="icon" data-icon="pin" aria-hidden="true"></span></div>
               <div>
                 <h3>Visit us</h3>
-                <p data-site-text="address"></p>
-                <p data-site-needs="mapLinkUrl" hidden><a data-site-href="mapLinkUrl" target="_blank" rel="noopener noreferrer">Get directions &rarr;</a></p>
+                <p data-site-needs="address" hidden data-site-text="address"></p>
+                <p data-site-needs="mapLinkUrl" hidden><a data-site-href="mapLinkUrl" target="_blank" rel="noopener noreferrer">Get directions on Google Maps &rarr;</a></p>
               </div>
             </li>
             <li class="contact-item" data-site-needs="phone" hidden>
@@ -132,10 +132,18 @@
       </div>
     </section>
 
-    <section class="section section--tight" data-site-needs="mapEmbedUrl" hidden>
+    <section class="section section--tight" id="map" data-site-needs-any="mapEmbedUrl,mapLinkUrl" hidden>
       <div class="container">
-        <div class="map" data-reveal>
-          <iframe data-site-src="mapEmbedUrl" title="Map showing the location of Life Source Church Kenya" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="map" data-site-needs="mapEmbedUrl" hidden>
+          <iframe data-site-src="mapEmbedUrl" title="Map showing the location of Life Source Church Kenya" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="map-cta" data-site-needs="mapLinkUrl" hidden>
+          <div class="icon-bubble"><span class="icon" data-icon="pin" aria-hidden="true"></span></div>
+          <div class="map-cta__text">
+            <h3>Find us on the map</h3>
+            <p>Open Google Maps for directions from wherever you are.</p>
+          </div>
+          <a class="btn" data-site-href="mapLinkUrl" target="_blank" rel="noopener noreferrer"><span class="icon" data-icon="pin" aria-hidden="true"></span>Open in Google Maps</a>
         </div>
       </div>
     </section>
@@ -184,6 +192,7 @@
           <h2>Get in touch</h2>
           <ul>
             <li data-site-needs="address" hidden data-site-text="address"></li>
+            <li data-site-needs="mapLinkUrl" hidden><a data-site-href="mapLinkUrl" target="_blank" rel="noopener noreferrer">Find us on Google Maps</a></li>
             <li data-site-needs="phone" hidden><a data-site-href="phone" data-site-text="phone"></a></li>
             <li data-site-needs="whatsapp" hidden><a data-site-href="whatsapp" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a></li>
             <li data-site-needs="email" hidden><a data-site-href="email" data-site-text="email"></a></li>

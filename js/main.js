@@ -183,6 +183,8 @@
   if (card) setInterval(renderNext, 30000);
 
   /* ---- Add-to-calendar (weekly recurring) ---- */
+  // Where the event happens: the street address if there is one, otherwise the Google Maps link.
+  function venue() { return getCfg("address") || getCfg("mapLinkUrl"); }
   function icsStamp(d) {
     return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) +
       "T" + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + "00Z";
@@ -216,7 +218,7 @@
       "SUMMARY:" + icsEscape(ev.title + " — Life Source Church Kenya"),
       "DESCRIPTION:" + icsEscape(ev.desc)
     ];
-    if (getCfg("address")) lines.push("LOCATION:" + icsEscape(getCfg("address")));
+    if (venue()) lines.push("LOCATION:" + icsEscape(venue()));
     lines.push("END:VEVENT", "END:VCALENDAR");
     return lines.map(icsFold).join("\r\n") + "\r\n";
   }
@@ -229,7 +231,7 @@
       "details=" + encodeURIComponent(ev.desc),
       "recur=" + encodeURIComponent("RRULE:FREQ=WEEKLY;BYDAY=" + o.byday)
     ];
-    if (getCfg("address")) q.push("location=" + encodeURIComponent(getCfg("address")));
+    if (venue()) q.push("location=" + encodeURIComponent(venue()));
     return "https://calendar.google.com/calendar/render?" + q.join("&");
   }
 

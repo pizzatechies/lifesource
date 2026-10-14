@@ -71,12 +71,21 @@ Bios, titles (e.g. "Senior Pastor") and a short welcome message can be added to 
 
 ## Add your contact details (do this first)
 
-Open **`js/site-config.js`** and fill in the phone, WhatsApp, email, address, map and social links.
+Open **`js/site-config.js`** and fill in the phone, WhatsApp, email, address and social links. The
+**Google Maps location is already set** (the pin is "Life Source Church 254").
 They appear automatically in the footer, on the Contact page and in calendar invites.
 **Anything left empty is hidden**, so the site never shows blank or broken details. Until you add them,
 the Contact page shows a friendly "details are being updated" note and hides the message form. The form
 opens a pre-written message in **WhatsApp** and/or **email** (whichever you configure) — there's no
 server to run and no spam inbox to manage.
+
+### The map
+
+`mapEmbedUrl` is the live map on the Contact page and `mapLinkUrl` is the "Get directions" link used on the
+Contact, Home and Events pages, the footer and calendar invites. The embedded map currently shows Google's
+**satellite** view; to show the normal road map instead, change `!5e1` to `!5e0` in the `mapEmbedUrl` value.
+To change the location, use Google Maps → Share → **Embed a map** (copy only the `src="…"` address) and Share →
+**Copy link**.
 
 ## Logo and colours
 
@@ -101,7 +110,8 @@ review and edit them so they reflect your church's own beliefs. Scripture quotat
 ## Not included yet (needs your input)
 
 - **Photos** of the church, services and pastors.
-- **Where you meet** — add the address in `js/site-config.js` (it also appears on calendar invites).
+- **Street address as text** (optional) — the map and "Get directions" link are already set up; add `address` in
+  `js/site-config.js` if you'd also like the written address to show.
 - **Link-preview image** — for WhatsApp/Facebook previews, add once the domain is known:
   `<meta property="og:image" content="https://YOUR-DOMAIN/img/preview.png">` (1200 × 630 px).
 
