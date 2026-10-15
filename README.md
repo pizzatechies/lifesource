@@ -69,15 +69,24 @@ the home page). They currently show monogram circles. To add photos, replace eac
 `<img class="avatar" src="img/pastor-millicent.jpg" alt="Pastor Millicent Kaunda">` (square photos, at least 220 px, work best).
 Bios, titles (e.g. "Senior Pastor") and a short welcome message can be added to those cards too.
 
-## Add your contact details (do this first)
+## Contact details
 
-Open **`js/site-config.js`** and fill in the phone, WhatsApp, email, address and social links. The
-**Google Maps location is already set** (the pin is "Life Source Church 254").
-They appear automatically in the footer, on the Contact page and in calendar invites.
-**Anything left empty is hidden**, so the site never shows blank or broken details. Until you add them,
-the Contact page shows a friendly "details are being updated" note and hides the message form. The form
-opens a pre-written message in **WhatsApp** and/or **email** (whichever you configure) — there's no
-server to run and no spam inbox to manage.
+Everything lives in **`js/site-config.js`**. What's set so far:
+
+- **Email:** `info@lifesourcechurch254.co.ke` — shown on the Contact page and in the footer of every page, and it
+  powers the contact form's **Send via email** button.
+- **Google Maps location:** the pin is "Life Source Church 254" (see *The map* below).
+
+Still empty: **phone**, **WhatsApp** and the **street address** text. Add them there and they appear
+automatically in the footer, on the Contact page and in calendar invites. **Anything left empty is hidden**, so
+the site never shows blank or broken details. The contact form opens a pre-written message in **WhatsApp**
+and/or **email** (whichever are configured) — there's no server to run and no spam inbox to manage — and its
+small print adjusts to match. Adding a WhatsApp number also switches on a "Send via WhatsApp" button.
+
+> The email address only works if the mailbox exists. Make sure `info@lifesourcechurch254.co.ke` is set up with
+> an email provider (many registrars include mailboxes, or use Zoho / Google Workspace) and send yourself a test
+> message. If you later connect the domain to this website, keep the provider's **MX** records when adding the
+> website's `A` / `CNAME` records.
 
 ### The map
 

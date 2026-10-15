@@ -15,8 +15,9 @@ window.SITE_CONFIG = {
   // contact form's WhatsApp option.
   whatsapp: "",
 
-  // Church email address, e.g. "info@yourchurch.org"
-  email: "",
+  // Official church email address. Shown on the Contact page and in the footer, and
+  // powers the contact form's "Send via email" button.
+  email: "info@lifesourcechurch254.co.ke",
 
   // Where the church meets, e.g. "Building name, Street, Town"
   address: "",

@@ -271,6 +271,11 @@
     if (section.hidden && section.parentElement) section.parentElement.classList.add("split--single");
     if (waBtn) waBtn.hidden = !wa;
     if (mailBtn) mailBtn.hidden = !mail;
+    var hint = $("[data-form-hint]", form);
+    if (hint) {
+      var apps = wa && mail ? "WhatsApp or your email app" : wa ? "WhatsApp" : "your email app";
+      hint.textContent = "Your message opens in " + apps + " so you can review it before sending.";
+    }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
