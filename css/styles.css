@@ -711,18 +711,21 @@ a:hover { color: var(--brand-strong); }
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: clamp(1rem, 2.8vw, 1.2rem);
   font-weight: 600;
+  word-break: break-word;
   overflow-wrap: anywhere;
   color: #fff;
 }
 .till .btn-row { gap: 0.6rem; }
 .join-row { margin: 0 0 1.2rem; }
 .join-help { margin: 1.2rem 0 0; color: var(--ink-soft); }
+.join-tip { margin: 1rem 0 0; font-size: 0.95rem; color: var(--ink-soft); }
+.page-hero__actions { margin-top: 1.6rem; }
 .chip--online { color: #fff; background: var(--brand); }
 @media (prefers-color-scheme: dark) { .chip--online { color: #0c0630; } }
 .next-card__join { margin: 0 0 1.2rem; }
 .till__note { margin: 1.2rem 0 0; font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); }
-.till a { color: #fff; font-weight: 650; }
-.till a:hover { color: var(--accent); }
+.till a:not(.btn) { color: #fff; font-weight: 650; }
+.till a:not(.btn):hover { color: var(--accent); }
 .till .form-status { min-height: 1.4em; margin-top: 0.6rem; color: #7ff0a7; }
 .howto { counter-reset: how; display: grid; gap: 1.2rem; margin: 0; padding: 0; list-style: none; }
 .howto li { counter-increment: how; position: relative; padding-left: 3.1rem; }
@@ -844,7 +847,7 @@ a:hover { color: var(--brand-strong); }
   color: rgba(255, 255, 255, 0.82);
   background: #0a0538;
 }
-.site-footer a { color: #fff; }
+.site-footer a { color: #fff; overflow-wrap: anywhere; }
 .site-footer a:hover { color: var(--accent); }
 .footer-grid { display: grid; gap: 2.2rem; padding-bottom: 2.5rem; }
 @media (min-width: 760px) { .footer-grid { grid-template-columns: 1.3fr 1.25fr 0.75fr 1.2fr; } }

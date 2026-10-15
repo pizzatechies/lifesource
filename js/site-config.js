@@ -31,7 +31,10 @@ window.SITE_CONFIG = {
   mapLinkUrl: "https://maps.app.goo.gl/yNCQbgzpQi62jcaV8",
 
   // Google Meet link for the online meetings (Tuesday Prayers and Thursday Bible Study).
-  // It powers the "Join on Google Meet" buttons and is used as the location in calendar invites.
+  // It must be the FULL link, starting with https:// — if the Join buttons disappear, check this first.
+  // It powers the "Join on Google Meet" buttons and is the location in calendar invites.
+  // NOTE: the same link is also written into the .html pages (events, index, contact) as a fallback for
+  // visitors whose browser doesn't run JavaScript. If you change it, update those too (search for the old link).
   meetUrl: "https://meet.google.com/vti-ypyp-hys",
 
   // Social media — paste full page URLs (https://...). Leave "" to hide.

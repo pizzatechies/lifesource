@@ -46,8 +46,10 @@ Each event is an `<article class="event-card" data-event ...>` block (in `index.
 - `data-start` / `data-end`: 24-hour time in Kenyan time (`20:00` = 8:00 pm). Sunday Service uses `09:30` – `12:30`.
 
 To add one, copy an existing card, change those values and the visible text. The "next gathering" card
-and calendar buttons pick it up automatically. Don't forget the "Weekly gatherings" list in the footer
-(on every page) and on `contact.html`.
+and calendar buttons pick it up automatically. Times are also written out as plain text in several places — the event
+cards and chips, the *Join online* card and how-to on `events.html`, the page descriptions, the "Weekly gatherings"
+list in the footer of every page, and `contact.html` — so search all the pages for the old time (for example `8:00`)
+and update every match.
 
 > **Assumptions to check**
 > - Thursday Bible Study was given as "8:00 to 9:00" — shown as **8:00 – 9:00 pm**, like Tuesday.
@@ -78,11 +80,18 @@ Everything lives in **`js/site-config.js`**. What's set so far:
 - **Email:** `info@lifesourcechurch254.co.ke` — shown on the Contact page and in the footer of every page, and it
   powers the contact form's **Send via email** button.
 - **Google Maps location:** the pin is "Life Source Church 254" (see *The map* below).
-
 - **Google Meet link:** `meetUrl` — the link for the online Tuesday and Thursday meetings
   (`https://meet.google.com/vti-ypyp-hys`). It powers the **Join on Google Meet** buttons on the Home, Events and
   Contact pages, the join button in the home page's "Up next / Happening now" card, and the location in the
-  calendar invites. It's the same link every week; to change it, edit `meetUrl` in `js/site-config.js`.
+  calendar invites. It's the same link every week and must start with `https://`. To change it, edit `meetUrl` in
+  `js/site-config.js` **and** search the `.html` files for the old link and replace it there too — it's also written
+  into `index.html`, `events.html` and `contact.html` so the link still works for anyone whose browser doesn't run
+  JavaScript. People who already saved the Tuesday/Thursday events to their calendar before the move online should
+  delete the old entry and add it again from the Events page.
+
+  > Free Google accounts may limit group video calls to about 60 minutes. The Tuesday and Thursday meetings are
+  > exactly 60 minutes long, so if the host starts the call early it could end before 9:00 pm. Check which account
+  > created the link, or have the host start the meeting at 8:00 pm.
 
 Still empty: **phone**, **WhatsApp** and the **street address** text. Add them there and they appear
 automatically in the footer, on the Contact page and in calendar invites. **Anything left empty is hidden**, so

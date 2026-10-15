@@ -85,7 +85,7 @@
     var v = path.split(".").reduce(function (o, k) { return o && o[k] != null ? o[k] : ""; }, CFG);
     return typeof v === "string" ? v.trim() : "";
   }
-  function isHttps(url) { return /^https:\/\//i.test(url); }
+  function isHttps(url) { return /^https:\/\/[^\s\/?#]+(?:[\/?#]\S*)?$/i.test(url); }
   var HREF = {
     phone: function (v) { return "tel:" + v.replace(/[^\d+]/g, ""); },
     email: function (v) { return "mailto:" + v; },
@@ -177,24 +177,27 @@
   var events = readEvents();
   var card = $("[data-next-event]");
 
+  // Write to the page only when the value actually changed (this card is a live region).
+  function setText(el, value) { if (el && el.textContent !== value) el.textContent = value; }
+
   function renderNext() {
     if (!card || !events.length) return;
     var now = Date.now();
     var all = events.map(function (ev) { return describe(ev, now); });
     var pick = all.filter(function (d) { return d.live; })[0] ||
       all.sort(function (a, b) { return a.delta - b.delta; })[0];
-    card.classList.toggle("is-live", pick.live);
-    $("[data-next=status]", card).textContent = pick.live ? "Happening now" : "Up next";
-    $("[data-next=title]", card).textContent = pick.ev.title;
-    $("[data-next=when]", card).textContent = whenText(pick);
+    if (card.classList.contains("is-live") !== pick.live) card.classList.toggle("is-live", pick.live);
+    setText($("[data-next=status]", card), pick.live ? "Happening now" : "Up next");
+    setText($("[data-next=title]", card), pick.ev.title);
+    setText($("[data-next=when]", card), whenText(pick));
     var join = $("[data-next-join]", card);
     if (join) {
       var link = meetLink();
       var show = !!(pick.ev.online && link);
-      join.hidden = !show;
+      if (join.hidden === show) join.hidden = !show;
       if (show) {
-        join.setAttribute("href", link);
-        $("[data-next-join-label]", join).textContent = pick.live ? "Join now on Google Meet" : "Join on Google Meet";
+        if (join.getAttribute("href") !== link) join.setAttribute("href", link);
+        setText($("[data-next-join-label]", join), pick.live ? "Join now on Google Meet" : "Join on Google Meet");
       }
     }
   }
@@ -206,7 +209,10 @@
   function meetLink() { var v = getCfg("meetUrl"); return isHttps(v) ? v : ""; }
   // Where an event happens: online events use the Meet link; the others use the street
   // address if there is one, otherwise the Google Maps link.
-  function venue(ev) { return ev && ev.online && meetLink() ? meetLink() : (getCfg("address") || getCfg("mapLinkUrl")); }
+  function venue(ev) {
+    if (ev && ev.online) return meetLink(); // no valid link -> no LOCATION (never the church building)
+    return getCfg("address") || getCfg("mapLinkUrl");
+  }
   // Calendar description; online events also carry the join link.
   function details(ev) { return ev.desc + (ev.online && meetLink() ? "\nJoin on Google Meet: " + meetLink() : ""); }
   function icsStamp(d) {
@@ -239,6 +245,7 @@
       "DTSTAMP:" + icsStamp(new Date()),
       "DTSTART:" + icsStamp(o.start), "DTEND:" + icsStamp(o.end),
       "RRULE:FREQ=WEEKLY;BYDAY=" + o.byday,
+      "SEQUENCE:1",
       "SUMMARY:" + icsEscape(ev.title + " — Life Source Church Kenya"),
       "DESCRIPTION:" + icsEscape(details(ev))
     ];
@@ -301,9 +308,13 @@
       hint.textContent = "Your message opens in " + apps + " so you can review it before sending.";
     }
 
+    var lastChannel = "";
+    $$("[data-channel]", form).forEach(function (btn) {
+      btn.addEventListener("click", function () { lastChannel = btn.getAttribute("data-channel"); });
+    });
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var channel = (e.submitter && e.submitter.getAttribute("data-channel")) || (wa ? "whatsapp" : "email");
+      var channel = (e.submitter && e.submitter.getAttribute("data-channel")) || lastChannel || (wa ? "whatsapp" : "email");
       var name = form.elements.name.value.trim();
       var reach = form.elements.reach.value.trim();
       var topic = form.elements.topic.value;
@@ -323,10 +334,7 @@
   }
 
   /* ---------- Copy-to-clipboard buttons (e.g. M-PESA till number) ---------- */
-  function copyText(value) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(value);
-    }
+  function legacyCopy(value) {
     return new Promise(function (resolve, reject) {
       var ta = document.createElement("textarea");
       ta.value = value;
@@ -334,9 +342,16 @@
       ta.style.cssText = "position:fixed;top:0;left:0;opacity:0";
       document.body.appendChild(ta);
       ta.select();
+      try { ta.setSelectionRange(0, value.length); } catch (e) { /* older browsers */ }
       try { document.execCommand("copy") ? resolve() : reject(); } catch (e) { reject(e); }
       document.body.removeChild(ta);
     });
+  }
+  function copyText(value) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(value).catch(function () { return legacyCopy(value); });
+    }
+    return legacyCopy(value);
   }
   $$("[data-copy]").forEach(function (btn) {
     var source = $(btn.getAttribute("data-copy"));
