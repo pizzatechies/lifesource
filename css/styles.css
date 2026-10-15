@@ -706,6 +706,20 @@ a:hover { color: var(--brand-strong); }
   font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
 }
+.till .meet-url {
+  margin: 0.5rem 0 1.3rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  color: #fff;
+}
+.till .btn-row { gap: 0.6rem; }
+.join-row { margin: 0 0 1.2rem; }
+.join-help { margin: 1.2rem 0 0; color: var(--ink-soft); }
+.chip--online { color: #fff; background: var(--brand); }
+@media (prefers-color-scheme: dark) { .chip--online { color: #0c0630; } }
+.next-card__join { margin: 0 0 1.2rem; }
 .till__note { margin: 1.2rem 0 0; font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); }
 .till a { color: #fff; font-weight: 650; }
 .till a:hover { color: var(--accent); }

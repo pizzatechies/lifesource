@@ -30,6 +30,10 @@ window.SITE_CONFIG = {
   // enough to show directions buttons across the site, even with no street address.
   mapLinkUrl: "https://maps.app.goo.gl/yNCQbgzpQi62jcaV8",
 
+  // Google Meet link for the online meetings (Tuesday Prayers and Thursday Bible Study).
+  // It powers the "Join on Google Meet" buttons and is used as the location in calendar invites.
+  meetUrl: "https://meet.google.com/vti-ypyp-hys",
+
   // Social media — paste full page URLs (https://...). Leave "" to hide.
   social: {
     facebook: "",

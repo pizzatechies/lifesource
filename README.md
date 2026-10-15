@@ -22,8 +22,8 @@ All times are East Africa Time (EAT).
 | Gathering | When |
 | --- | --- |
 | **Sunday Service** | Every Sunday, 9:30 am – 12:30 pm: **prayers** from 9:30, **worship** 10:00 – 11:00, **sermon** 11:00 – 12:30 |
-| **Tuesday Prayers** | Every Tuesday, 8:00 – 9:00 pm |
-| **Thursday Bible Study** | Every Thursday, 8:00 – 9:00 pm |
+| **Tuesday Prayers** | Every Tuesday, 8:00 – 9:00 pm — **online on Google Meet** |
+| **Thursday Bible Study** | Every Thursday, 8:00 – 9:00 pm — **online on Google Meet** |
 
 The home page's "Up next / Happening now" card is calculated in Kenyan time, whatever time zone the
 visitor is in. Each event has *Google Calendar* and *Apple / Outlook (.ics)* buttons that create a
@@ -41,6 +41,8 @@ Each event is an `<article class="event-card" data-event ...>` block (in `index.
 ```
 
 - `data-day`: `0` = Sunday, `1` = Monday … `6` = Saturday
+- `data-online`: present on events held online (Tuesday and Thursday). Online events get the Google Meet link as their
+  calendar location and a "Join on Google Meet" button; events without it (Sunday) use the church's map location.
 - `data-start` / `data-end`: 24-hour time in Kenyan time (`20:00` = 8:00 pm). Sunday Service uses `09:30` – `12:30`.
 
 To add one, copy an existing card, change those values and the visible text. The "next gathering" card
@@ -76,6 +78,11 @@ Everything lives in **`js/site-config.js`**. What's set so far:
 - **Email:** `info@lifesourcechurch254.co.ke` — shown on the Contact page and in the footer of every page, and it
   powers the contact form's **Send via email** button.
 - **Google Maps location:** the pin is "Life Source Church 254" (see *The map* below).
+
+- **Google Meet link:** `meetUrl` — the link for the online Tuesday and Thursday meetings
+  (`https://meet.google.com/vti-ypyp-hys`). It powers the **Join on Google Meet** buttons on the Home, Events and
+  Contact pages, the join button in the home page's "Up next / Happening now" card, and the location in the
+  calendar invites. It's the same link every week; to change it, edit `meetUrl` in `js/site-config.js`.
 
 Still empty: **phone**, **WhatsApp** and the **street address** text. Add them there and they appear
 automatically in the footer, on the Contact page and in calendar invites. **Anything left empty is hidden**, so

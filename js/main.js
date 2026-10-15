@@ -34,6 +34,7 @@
     arrow: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
     send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
     download: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>',
+    video: '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>',
     sun: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>'
   };
 
@@ -91,11 +92,18 @@
     whatsapp: function (v) { return "https://wa.me/" + v.replace(/\D/g, ""); }
   };
 
+  // A setting counts as "present" if it is filled in — and, for link settings, is a safe https URL.
+  // That way a mistyped link hides the buttons that depend on it instead of leaving dead ones.
+  var URL_KEY = /(Url$|^social\.)/;
+  function present(key) {
+    var v = getCfg(key);
+    return !!v && (!URL_KEY.test(key) || isHttps(v));
+  }
   $$("[data-site-needs]").forEach(function (el) {
-    el.hidden = !getCfg(el.getAttribute("data-site-needs"));
+    el.hidden = !present(el.getAttribute("data-site-needs"));
   });
   $$("[data-site-needs-any]").forEach(function (el) {
-    el.hidden = !el.getAttribute("data-site-needs-any").split(",").some(function (k) { return getCfg(k.trim()); });
+    el.hidden = !el.getAttribute("data-site-needs-any").split(",").some(function (k) { return present(k.trim()); });
   });
   $$("[data-site-text]").forEach(function (el) {
     var v = getCfg(el.getAttribute("data-site-text"));
@@ -126,6 +134,7 @@
         el: el,
         title: el.getAttribute("data-title") || "Gathering",
         desc: el.getAttribute("data-desc") || "",
+        online: el.hasAttribute("data-online"),
         day: parseInt(el.getAttribute("data-day"), 10),
         startMin: parseInt(s[0], 10) * 60 + parseInt(s[1] || "0", 10),
         endMin: parseInt(e[0], 10) * 60 + parseInt(e[1] || "0", 10)
@@ -178,13 +187,28 @@
     $("[data-next=status]", card).textContent = pick.live ? "Happening now" : "Up next";
     $("[data-next=title]", card).textContent = pick.ev.title;
     $("[data-next=when]", card).textContent = whenText(pick);
+    var join = $("[data-next-join]", card);
+    if (join) {
+      var link = meetLink();
+      var show = !!(pick.ev.online && link);
+      join.hidden = !show;
+      if (show) {
+        join.setAttribute("href", link);
+        $("[data-next-join-label]", join).textContent = pick.live ? "Join now on Google Meet" : "Join on Google Meet";
+      }
+    }
   }
   renderNext();
   if (card) setInterval(renderNext, 30000);
 
   /* ---- Add-to-calendar (weekly recurring) ---- */
-  // Where the event happens: the street address if there is one, otherwise the Google Maps link.
-  function venue() { return getCfg("address") || getCfg("mapLinkUrl"); }
+  // The Google Meet link for the online meetings (only if it is a safe https URL).
+  function meetLink() { var v = getCfg("meetUrl"); return isHttps(v) ? v : ""; }
+  // Where an event happens: online events use the Meet link; the others use the street
+  // address if there is one, otherwise the Google Maps link.
+  function venue(ev) { return ev && ev.online && meetLink() ? meetLink() : (getCfg("address") || getCfg("mapLinkUrl")); }
+  // Calendar description; online events also carry the join link.
+  function details(ev) { return ev.desc + (ev.online && meetLink() ? "\nJoin on Google Meet: " + meetLink() : ""); }
   function icsStamp(d) {
     return d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) +
       "T" + pad(d.getUTCHours()) + pad(d.getUTCMinutes()) + "00Z";
@@ -216,9 +240,9 @@
       "DTSTART:" + icsStamp(o.start), "DTEND:" + icsStamp(o.end),
       "RRULE:FREQ=WEEKLY;BYDAY=" + o.byday,
       "SUMMARY:" + icsEscape(ev.title + " — Life Source Church Kenya"),
-      "DESCRIPTION:" + icsEscape(ev.desc)
+      "DESCRIPTION:" + icsEscape(details(ev))
     ];
-    if (venue()) lines.push("LOCATION:" + icsEscape(venue()));
+    if (venue(ev)) lines.push("LOCATION:" + icsEscape(venue(ev)));
     lines.push("END:VEVENT", "END:VCALENDAR");
     return lines.map(icsFold).join("\r\n") + "\r\n";
   }
@@ -228,10 +252,10 @@
       "action=TEMPLATE",
       "text=" + encodeURIComponent(ev.title + " — Life Source Church Kenya"),
       "dates=" + icsStamp(o.start) + "/" + icsStamp(o.end),
-      "details=" + encodeURIComponent(ev.desc),
+      "details=" + encodeURIComponent(details(ev)),
       "recur=" + encodeURIComponent("RRULE:FREQ=WEEKLY;BYDAY=" + o.byday)
     ];
-    if (venue()) q.push("location=" + encodeURIComponent(venue()));
+    if (venue(ev)) q.push("location=" + encodeURIComponent(venue(ev)));
     return "https://calendar.google.com/calendar/render?" + q.join("&");
   }
 
@@ -322,14 +346,16 @@
     var original = label ? label.textContent : "";
     btn.hidden = false;
     btn.addEventListener("click", function () {
-      // Copy digits only, so it pastes cleanly into M-PESA.
-      var value = source.textContent.replace(/\D/g, "");
+      // Numbers (the M-PESA till) are copied as digits only so they paste cleanly into M-PESA;
+      // links (data-copy-raw) are copied exactly as shown.
+      var raw = btn.hasAttribute("data-copy-raw");
+      var value = raw ? source.textContent.trim() : source.textContent.replace(/\D/g, "");
       copyText(value).then(function () {
         if (label) label.textContent = "Copied!";
-        if (status) status.textContent = "Till number " + value + " copied.";
+        if (status) status.textContent = raw ? "Link copied." : "Till number " + value + " copied.";
         setTimeout(function () { if (label) label.textContent = original; }, 2200);
       }, function () {
-        if (status) status.textContent = "Couldn’t copy automatically — please select the number and copy it.";
+        if (status) status.textContent = "Couldn’t copy automatically — please select it and copy it.";
       });
     });
   });
